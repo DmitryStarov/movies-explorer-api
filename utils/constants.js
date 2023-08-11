@@ -11,16 +11,15 @@ const SERVER_ERROR_MESSAGE = 'На сервере произошла ошибк�
 const INVALID_ADD_USER_MESSAGE = 'Переданы некорректные данные при создании пользователя';
 const USER_NOT_FOUND_MESSAGE = 'Пользователь по указанному _id не найден';
 const INVALID_UPDATE_USER_MESSAGE = 'Переданы некорректные данные при обновлении профиля';
-const INVALID_UPDATE_AVATAR_MESSAGE = 'Переданы некорректные данные при обновлении аватара';
-const INVALID_ADD_CARD_MESSAGE = ' Переданы некорректные данные при создании карточки';
-const CARD_NOT_FOUND_MESSAGE = 'Карточка с указанным _id не найдена';
-const INVALID_LIKE_CARD_MESSAGE = 'Переданы некорректные данные для постановки/снятии лайка';
-const INVALID_ID_CARD_MESSAGE = ' Передан несуществующий _id карточки';
+const INVALID_ADD_MOVIE_MESSAGE = ' Переданы некорректные данные при добавлении фильма';
+const MOVIE_NOT_FOUND_MESSAGE = 'Фильм с указанным _id не найден';
+const INVALID_LIKE_MOVIE_MESSAGE = 'Переданы некорректные данные для постановки/снятии лайка';
+const INVALID_ID_MOVIE_MESSAGE = ' Передан несуществующий _id фильма';
 const INVALID_EMAIL = 'Неверно указан email';
 const INVALID_URL = 'Неверно указан URL';
 const CONFLICT_EMAIL_MESSAGE = 'Этот email уже зарегестрирован';
 const AUTH_ERR_MESSAGE = 'Необходимо авторизироваться';
-const FORBIDDEN_DELETE_CARD_MESSAGE = 'Запрещено удалять чужую карточку';
+const FORBIDDEN_DELETE_MOVIE_MESSAGE = 'Запрещено удалять чужую фильм';
 const { SECRET_KEY } = process.env;
 const REG_URL = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/;
 const REG_ID = /^[0-9a-fA-F]{24}$/;
@@ -37,16 +36,15 @@ module.exports = {
   INVALID_ADD_USER_MESSAGE,
   USER_NOT_FOUND_MESSAGE,
   INVALID_UPDATE_USER_MESSAGE,
-  INVALID_UPDATE_AVATAR_MESSAGE,
-  INVALID_ADD_CARD_MESSAGE,
-  CARD_NOT_FOUND_MESSAGE,
-  INVALID_LIKE_CARD_MESSAGE,
-  INVALID_ID_CARD_MESSAGE,
+  INVALID_ADD_MOVIE_MESSAGE,
+  MOVIE_NOT_FOUND_MESSAGE,
+  INVALID_LIKE_MOVIE_MESSAGE,
+  INVALID_ID_MOVIE_MESSAGE,
   INVALID_EMAIL,
   INVALID_URL,
   CONFLICT_EMAIL_MESSAGE,
   AUTH_ERR_MESSAGE,
-  FORBIDDEN_DELETE_CARD_MESSAGE,
+  FORBIDDEN_DELETE_MOVIE_MESSAGE,
   SECRET_KEY,
   REG_URL,
   REG_ID,

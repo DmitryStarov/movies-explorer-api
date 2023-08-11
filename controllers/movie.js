@@ -3,9 +3,9 @@ const Movie = require('../models/movie');
 
 const {
   CREATED_STATUS,
-  INVALID_ADD_CARD_MESSAGE,
-  CARD_NOT_FOUND_MESSAGE,
-  FORBIDDEN_DELETE_CARD_MESSAGE,
+  INVALID_ADD_MOVIE_MESSAGE,
+  MOVIE_NOT_FOUND_MESSAGE,
+  FORBIDDEN_DELETE_MOVIE_MESSAGE,
 } = require('../utils/constants');
 const BadRequest = require('../errors/BadRequest');
 const NotFound = require('../errors/NotFound');
@@ -55,7 +55,7 @@ module.exports.postMovie = (req, res, next) => {
     })
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
-        return next(new BadRequest(INVALID_ADD_CARD_MESSAGE));
+        return next(new BadRequest(INVALID_ADD_MOVIE_MESSAGE));
       }
       return next(err);
     });
@@ -67,10 +67,10 @@ module.exports.deleteMovie = (req, res, next) => {
     .populate('owner')
     .then((movie) => {
       if (!movie) {
-        return next(new NotFound(CARD_NOT_FOUND_MESSAGE));
+        return next(new NotFound(MOVIE_NOT_FOUND_MESSAGE));
       }
       if (!movie.owner.equals(req.user._id)) {
-        return next(new Forbidden(FORBIDDEN_DELETE_CARD_MESSAGE));
+        return next(new Forbidden(FORBIDDEN_DELETE_MOVIE_MESSAGE));
       }
       return Movie.deleteOne(movie)
         .then(() => {
@@ -80,7 +80,7 @@ module.exports.deleteMovie = (req, res, next) => {
     })
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
-        return next(new BadRequest(CARD_NOT_FOUND_MESSAGE));
+        return next(new BadRequest(MOVIE_NOT_FOUND_MESSAGE));
       }
       return next(err);
     });
