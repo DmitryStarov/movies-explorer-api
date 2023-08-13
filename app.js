@@ -13,6 +13,8 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const NotFound = require('./errors/NotFound');
 
 const allowedCors = [
+  'https://dstarov.nomoreparties.co',
+  'http://dstarov.nomoreparties.co',
   'https://localhost:3000',
   'http://localhost:3000',
 ];
