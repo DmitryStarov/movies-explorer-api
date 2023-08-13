@@ -11,29 +11,17 @@ const BadRequest = require('../errors/BadRequest');
 const NotFound = require('../errors/NotFound');
 const Forbidden = require('../errors/Forbidden');
 
-module.exports.getMovies = (req, res, next) => {
-  Movie
-    .find({})
-    .populate(['owner', 'likes'])
-    .then((movies) => res.send(movies.reverse()))
-    .catch(next);
+module.exports.getMovies = async (req, res, next) => {
+  try {
+    const movies = await Movie.find({ owner: req.user._id }).populate('owner');
+    return res.send(movies.reverse());
+  } catch (err) {
+    return next(err);
+  }
 };
-module.exports.postMovie = (req, res, next) => {
-  const {
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailerLink,
-    thumbnail,
-    movieId,
-    nameRU,
-    nameEN,
-  } = req.body;
-  Movie
-    .create({
+module.exports.postMovie = async (req, res, next) => {
+  try {
+    const {
       country,
       director,
       duration,
@@ -45,43 +33,47 @@ module.exports.postMovie = (req, res, next) => {
       movieId,
       nameRU,
       nameEN,
-      owner: req.user._id,
-    })
-    .then((movie) => {
-      movie
-        .populate('owner')
-        .then(() => res.status(CREATED_STATUS).send(movie))
-        .catch(next);
-    })
-    .catch((err) => {
-      if (err instanceof mongoose.Error.ValidationError) {
-        return next(new BadRequest(INVALID_ADD_MOVIE_MESSAGE));
-      }
-      return next(err);
-    });
+    } = req.body;
+    const movie = await Movie
+      .create({
+        country,
+        director,
+        duration,
+        year,
+        description,
+        image,
+        trailerLink,
+        thumbnail,
+        movieId,
+        nameRU,
+        nameEN,
+        owner: req.user._id,
+      });
+    await movie.populate('owner');
+    return res.status(CREATED_STATUS).send(movie);
+  } catch (err) {
+    if (err instanceof mongoose.Error.ValidationError) {
+      return next(new BadRequest(INVALID_ADD_MOVIE_MESSAGE));
+    }
+    return next(err);
+  }
 };
-module.exports.deleteMovie = (req, res, next) => {
-  const { _id: movieId } = req.params;
-  Movie
-    .findById(movieId)
-    .populate('owner')
-    .then((movie) => {
-      if (!movie) {
-        return next(new NotFound(MOVIE_NOT_FOUND_MESSAGE));
-      }
-      if (!movie.owner.equals(req.user._id)) {
-        return next(new Forbidden(FORBIDDEN_DELETE_MOVIE_MESSAGE));
-      }
-      return Movie.deleteOne(movie)
-        .then(() => {
-          res.send(movie);
-        })
-        .catch(next);
-    })
-    .catch((err) => {
-      if (err instanceof mongoose.Error.CastError) {
-        return next(new BadRequest(MOVIE_NOT_FOUND_MESSAGE));
-      }
-      return next(err);
-    });
+module.exports.deleteMovie = async (req, res, next) => {
+  try {
+    const { _id: movieId } = req.params;
+    const movie = await Movie.findById(movieId).populate('owner');
+    if (!movie) {
+      return next(new NotFound(MOVIE_NOT_FOUND_MESSAGE));
+    }
+    if (!movie.owner.equals(req.user._id)) {
+      return next(new Forbidden(FORBIDDEN_DELETE_MOVIE_MESSAGE));
+    }
+    await movie.deleteOne(movie);
+    return res.send(movie);
+  } catch (err) {
+    if (err instanceof mongoose.Error.CastError) {
+      return next(new BadRequest(MOVIE_NOT_FOUND_MESSAGE));
+    }
+    return next(err);
+  }
 };
