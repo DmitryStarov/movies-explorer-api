@@ -3,10 +3,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const cors = require('cors');
-const rateLimit = require('express-rate-limit');
 const { routeUsers, routeCards } = require('./routes/index');
 const { postUser, login } = require('./controllers/users');
 const { INTERNAL_SERVER_STATUS, SERVER_ERROR_MESSAGE } = require('./utils/constants');
+const { limiter } = require('./middlewares/limiter');
 const { validatePostUser, validateLogin } = require('./middlewares/validation');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -21,12 +21,6 @@ const corsOptions = {
   optionsSuccessStatus: 200,
   credentials: true,
 };
-
-const limiter = rateLimit({
-  windowMs: 60 * 1000,
-  max: 100,
-  message: 'Превышено количество запросов на сервер. Пожалуйста, повторите позже',
-});
 
 const app = express();
 const { URL } = process.env;
