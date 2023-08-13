@@ -61,7 +61,7 @@ module.exports.postMovie = (req, res, next) => {
     });
 };
 module.exports.deleteMovie = (req, res, next) => {
-  const { movieId } = req.params;
+  const { _id: movieId } = req.params;
   Movie
     .findById(movieId)
     .populate('owner')
