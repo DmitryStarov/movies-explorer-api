@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
+const helmet = require('helmet');
 const cors = require('cors');
 const { DB, SERVER_PORT } = require('./utils/config');
 const { routeUsers, routeCards } = require('./routes/index');
@@ -27,6 +28,7 @@ const corsOptions = {
 const app = express();
 
 mongoose.connect(DB);
+app.use(helmet());
 app.use(cors(corsOptions)); app.use(limiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
