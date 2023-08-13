@@ -1,8 +1,8 @@
-require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const cors = require('cors');
+const { DB, SERVER_PORT } = require('./utils/config');
 const { routeUsers, routeCards } = require('./routes/index');
 const { postUser, login } = require('./controllers/users');
 const { INTERNAL_SERVER_STATUS, SERVER_ERROR_MESSAGE } = require('./utils/constants');
@@ -25,9 +25,8 @@ const corsOptions = {
 };
 
 const app = express();
-const { URL } = process.env;
-const { PORT = 3000 } = process.env;
-mongoose.connect(URL);
+
+mongoose.connect(DB);
 app.use(cors(corsOptions)); app.use(limiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -55,4 +54,4 @@ app.use((err, req, res, next) => {
   next();
 });
 
-app.listen(PORT);
+app.listen(SERVER_PORT);
