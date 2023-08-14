@@ -64,7 +64,7 @@ module.exports.postUser = async (req, res, next) => {
     return next(err);
   }
 };
-module.exports.pathUser = async (req, res, next) => {
+module.exports.patchUser = async (req, res, next) => {
   try {
     const { name, about } = req.body;
     const user = await User.findByIdAndUpdate(
