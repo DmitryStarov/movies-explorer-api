@@ -7,9 +7,9 @@ const {
   USER_NOT_FOUND_MESSAGE,
   INVALID_UPDATE_USER_MESSAGE,
   CONFLICT_EMAIL_MESSAGE,
-  SECRET_KEY,
   OK_STATUS,
 } = require('../utils/constants');
+const { SECRET_STRING } = require('../utils/config');
 const BadRequest = require('../errors/BadRequest');
 const NotFound = require('../errors/NotFound');
 const ConflictRequestError = require('../errors/ConflictRequestError');
@@ -90,7 +90,7 @@ module.exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await User.findUserByCredentials(email, password);
-    const token = jwt.sign({ _id: user._id }, SECRET_KEY, { expiresIn: '7d' });
+    const token = jwt.sign({ _id: user._id }, SECRET_STRING, { expiresIn: '7d' });
     return res.status(OK_STATUS).send({ token });
   } catch (err) {
     return next(err);
