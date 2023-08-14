@@ -22,7 +22,7 @@ const movieSchema = new Schema(
     },
     // год выпуска фильма
     year: {
-      type: Number,
+      type: String,
       required: true,
     },
     // описание фильма

@@ -60,7 +60,7 @@ module.exports.postMovie = async (req, res, next) => {
 };
 module.exports.deleteMovie = async (req, res, next) => {
   try {
-    const { _id: movieId } = req.params;
+    const { movieId } = req.params;
     const movie = await Movie.findById(movieId).populate('owner');
     if (!movie) {
       return next(new NotFound(MOVIE_NOT_FOUND_MESSAGE));
