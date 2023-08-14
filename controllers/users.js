@@ -66,10 +66,10 @@ module.exports.postUser = async (req, res, next) => {
 };
 module.exports.patchUser = async (req, res, next) => {
   try {
-    const { name, about } = req.body;
+    const { name, email } = req.body;
     const user = await User.findByIdAndUpdate(
       req.user._id,
-      { name, about },
+      { name, email },
       { new: true, runValidators: true, upsert: false },
     );
     if (!user) {
