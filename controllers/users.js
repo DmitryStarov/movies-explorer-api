@@ -16,8 +16,9 @@ const ConflictRequestError = require('../errors/ConflictRequestError');
 
 module.exports.getUserInfo = async (req, res, next) => {
   try {
-    const { userId } = req.params;
+    const userId = req.user._id;
     const user = await User.findById(userId);
+    console.log(userId);
     if (!user) {
       throw new NotFound(USER_NOT_FOUND_MESSAGE);
     }
