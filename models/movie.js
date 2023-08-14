@@ -3,7 +3,7 @@ const { REG_URL, INVALID_URL } = require('../utils/constants');
 
 const { Schema } = mongoose;
 const { ObjectId } = mongoose.Schema.Types;
-const cardSchema = new Schema(
+const movieSchema = new Schema(
   {
     // страна создания фильма
     country: {
@@ -89,4 +89,4 @@ const cardSchema = new Schema(
     versionKey: false,
   },
 );
-module.exports = mongoose.model('card', cardSchema);
+module.exports = mongoose.model('movie', movieSchema);
